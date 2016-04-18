@@ -1,6 +1,58 @@
 # node-fdsh-client
 A Node.js client for the Federal Data Services Hub (FDSH)
 
+### Synopsis
+
+```ES6
+const fdsh = require('fdsh-client');
+const fs = require('fs');
+
+fdsh.createClient('dev.hub.cms.gov',
+                  9443,
+                  '/impl',
+                  'HubConnectivityService',
+                  'MY.USER.ID.001.001',
+                  'abc123',
+                  function(err, client) {
+  if (err) throw err;
+  fdsh.invokeMethod(client,
+                    'HubConnectivityCheck',
+                    { foo: 'bar' },
+                    fs.readFileSync('/path/to/cert.pem'),
+                    fs.readFileSync('/path/to/key.pem'),
+                    function(err, result, raw, soapHeader) {
+    if (err) throw err;
+    console.log(result);
+  });
+});
+```
+
+Output:
+```JavaScript
+{ ResponseMetadata: { ResponseCode: 'HS000000', ResponseDescriptionText: 'Success' } }
+```
+
+### FAQ
+
+__What is the Federal Data Services Hub (FDSH)?__
+
+It's a system developed for the sharing of information between various entities.
+
+__Who oversees the FDSH?__
+
+[The Centers for Medicare & Medicaid Services (CMS)](https://www.cms.gov/)
+
+__Who built the FDSH?__
+
+[QSS, Inc. (QSSI)](http://www.qssinc.com/)
+
+__How can I obtain a user ID, password, etc.?__
+
+You must speak with CMS.
+
+### TODO
+* tests
+
 ### Public domain
 
 This project is in the worldwide [public domain](LICENSE.md). As stated in [CONTRIBUTING](CONTRIBUTING.md):
