@@ -1,9 +1,10 @@
-# node-fdsh-client
+# fdsh-client [![NPM version][npm-image]][npm-url]
+
 A Node.js client for the Federal Data Services Hub (FDSH)
 
 ### Synopsis
 
-```ES6
+```javascript
 const fdsh = require('fdsh-client');
 const fs = require('fs');
 
@@ -28,8 +29,14 @@ fdsh.createClient('dev.hub.cms.gov',
 ```
 
 Output:
-```JavaScript
-{ ResponseMetadata: { ResponseCode: 'HS000000', ResponseDescriptionText: 'Success' } }
+```JSON
+{
+  "ResponseMetadata":
+  {
+    "ResponseCode": "HS000000",
+    "ResponseDescriptionText": "Success"
+  }
+}
 ```
 
 ### FAQ
@@ -60,3 +67,7 @@ This project is in the worldwide [public domain](LICENSE.md). As stated in [CONT
 > This project is in the public domain within the United States, and copyright and related rights in the work worldwide are waived through the [CC0 1.0 Universal public domain dedication](https://creativecommons.org/publicdomain/zero/1.0/).
 >
 > All contributions to this project will be released under the CC0 dedication. By submitting a pull request, you are agreeing to comply with this waiver of copyright interest.
+
+
+[npm-url]: https://npmjs.org/package/fdsh-client
+[npm-image]: http://img.shields.io/npm/v/fdsh-client.svg
