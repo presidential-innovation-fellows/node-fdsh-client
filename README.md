@@ -11,7 +11,7 @@ Install with [npm](http://github.com/isaacs/npm):
 npm install fdsh-client
 ```
 
-### Synopsis
+## Synopsis
 
 ```javascript
 const fdsh = require('fdsh-client');
@@ -48,7 +48,7 @@ Output:
 }
 ```
 
-### FAQ
+## FAQ
 
 __What is the Federal Data Services Hub (FDSH)?__
 
@@ -66,10 +66,10 @@ __How can I obtain a user ID, password, etc.?__
 
 You must speak with CMS.
 
-### TODO
+## TODO
 * tests
 
-### Public domain
+## Public domain
 
 This project is in the worldwide [public domain](LICENSE.md). As stated in [CONTRIBUTING](CONTRIBUTING.md):
 
