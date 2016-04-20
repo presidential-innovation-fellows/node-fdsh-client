@@ -2,6 +2,15 @@
 
 A Node.js client for the Federal Data Services Hub (FDSH)
 
+
+## Install
+
+Install with [npm](http://github.com/isaacs/npm):
+
+```
+npm install fdsh-client
+```
+
 ### Synopsis
 
 ```javascript
