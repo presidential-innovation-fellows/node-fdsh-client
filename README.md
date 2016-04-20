@@ -17,24 +17,26 @@ npm install fdsh-client
 const fdsh = require('fdsh-client');
 const fs = require('fs');
 
-fdsh.createClient('dev.hub.cms.gov',
-                  9443,
-                  '/impl',
-                  'HubConnectivityService',
-                  'MY.USER.ID.001.001',
-                  'abc123',
-                  function(err, client) {
-  if (err) throw err;
-  fdsh.invokeMethod(client,
-                    'HubConnectivityCheck',
-                    { foo: 'bar' },
-                    fs.readFileSync('/path/to/cert.pem'),
-                    fs.readFileSync('/path/to/key.pem'),
-                    function(err, result, raw, soapHeader) {
-    if (err) throw err;
-    console.log(result);
-  });
-});
+// auth config
+let cert = fs.readFileSync('/path/to/cert.pem'),
+let key = fs.readFileSync('/path/to/key.pem'),
+let userId = 'MY_USER_ID'
+let password = 'MY_PASSWORD'
+
+// environment config
+let host = 'dev.hub.cms.gov'
+let port = 5443
+let path = null
+
+// request config
+let serviceName = 'HubConnectivityService'
+let methodName = 'HubConnectivityCheck'
+let args = {}
+
+fdsh.createClient(host, port, path, serviceName, userId, password)
+  .then(client => fdsh.invokeMethod(client, methodName, args, cert, key))
+  .then(result => console.log(result))
+  .catch(err => console.log(err))
 ```
 
 Output:
