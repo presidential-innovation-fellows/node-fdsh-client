@@ -17,37 +17,54 @@ npm install fdsh-client
 const fdsh = require('fdsh-client');
 const fs = require('fs');
 
-// auth config
-let cert = fs.readFileSync('/path/to/cert.pem'),
-let key = fs.readFileSync('/path/to/key.pem'),
-let userId = 'MY_USER_ID'
-let password = 'MY_PASSWORD'
+// connectivity config
+const host = 'dev.hub.cms.gov'
+const port = 5443
+const path = null
+const userId = 'MY_USER_ID'
+const password = 'MY_PASSWORD'
+const cert = fs.readFileSync('/path/to/cert.pem'),
+const key = fs.readFileSync('/path/to/key.pem'),
+const connectivityArgs = { host, port, path, userId, password, cert, key }
 
-// environment config
-let host = 'dev.hub.cms.gov'
-let port = 5443
-let path = null
+// method-specific config
+const firstName = 'MARK'
+const middleName = ''
+const lastName = 'WHITE'
+const ssn = '277025100'
+const dob = '1991-07-08'
+const methodArgs = { firstName, middleName, lastName, ssn, dob }
 
-// request config
-let serviceName = 'HubConnectivityService'
-let methodName = 'HubConnectivityCheck'
-let args = {}
+let onThen = result => console.log(result)
+let onCatch = err => console.error(err)
+let service
 
-fdsh.createClient(host, port, path, serviceName, userId, password)
-  .then(client => fdsh.invokeMethod(client, methodName, args, cert, key))
-  .then(result => console.log(result))
-  .catch(err => console.log(err))
+service = require('./lib/hub-connectivity-service')
+service.hubConnectivityCheck(connectivityArgs)
+  .then(onThen)
+  .catch(onCatch)
+
+service = require('./lib/verify-ssa-composite-service')
+service.verifySsa(connectivityArgs, methodArgs)
+  .then(onThen)
+  .catch(onCatch)
 ```
 
 Output:
-```JSON
-{
-  "ResponseMetadata":
-  {
-    "ResponseCode": "HS000000",
-    "ResponseDescriptionText": "Success"
-  }
-}
+```javascript
+{ ResponseMetadata: { ResponseCode: 'HS000000', ResponseDescriptionText: 'Success' } }
+
+{ SSACompositeIndividualResponse:
+  { ResponseMetadata: { ResponseCode: 'HS000000', ResponseDescriptionText: 'Success' },
+    PersonSSNIdentification: '277025100',
+    SSAResponse:
+    { SSNVerificationIndicator: 'true',
+      DeathConfirmationCode: 'Unconfirmed',
+      PersonUSCitizenIndicator: 'true',
+      PersonIncarcerationInformationIndicator: 'false',
+      SSATitleIIMonthlyIncomeInformationIndicator: 'true',
+      SSATitleIIAnnualIncomeInformationIndicator: 'false',
+      SSATitleIIMonthlyIncome: [Object] } } }
 ```
 
 ## FAQ
