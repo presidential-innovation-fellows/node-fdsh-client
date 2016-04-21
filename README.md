@@ -39,13 +39,11 @@ let onThen = result => console.log(result)
 let onCatch = err => console.error(err)
 let service
 
-service = require('./lib/hub-connectivity-service')
-service.hubConnectivityCheck(connectivityArgs)
+fdsh.HubConnectivityService.hubConnectivityCheck(connectivityArgs)
   .then(onThen)
   .catch(onCatch)
 
-service = require('./lib/verify-ssa-composite-service')
-service.verifySsa(connectivityArgs, methodArgs)
+fdsh.VerifySSACompositeService.verifySsa(connectivityArgs, methodArgs)
   .then(onThen)
   .catch(onCatch)
 ```
