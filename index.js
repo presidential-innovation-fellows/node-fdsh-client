@@ -8,6 +8,6 @@ const serviceModules = [
 ]
 
 for (let path of serviceModules) {
-  let service = require('./lib/' + path)
+  let service = require('./lib/services/' + path)
   module.exports[service.SERVICE_NAME] = service
 }
