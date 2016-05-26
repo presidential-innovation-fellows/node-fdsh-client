@@ -13,6 +13,8 @@ npm install fdsh-client
 
 ## Synopsis
 
+Setup a bunch of config data:
+
 ```javascript
 const fdsh = require('fdsh-client');
 const fs = require('fs');
@@ -23,8 +25,8 @@ const port = 5443
 const path = null
 const userId = 'MY_USER_ID'
 const password = 'MY_PASSWORD'
-const cert = fs.readFileSync('/path/to/cert.pem'),
-const key = fs.readFileSync('/path/to/key.pem'),
+const cert = fs.readFileSync('/path/to/cert.pem')
+const key = fs.readFileSync('/path/to/key.pem')
 const connectivityArgs = { host, port, path, userId, password, cert, key }
 
 // method-specific config
@@ -35,22 +37,38 @@ const ssn = '277025100'
 const dob = '1991-07-08'
 const methodArgs = { firstName, middleName, lastName, ssn, dob }
 
+// some simple callbacks
 let onThen = result => console.log(result)
 let onCatch = err => console.error(err)
-let service
+```
 
+Then you can start feeding it to methods that correspond to FDSH services.
+
+For example, the **Hub Connectivity Service**:
+
+```javascript
 fdsh.HubConnectivityService.hubConnectivityCheck(connectivityArgs)
   .then(onThen)
   .catch(onCatch)
+```
 
+…outputs:
+
+```javascript
+{ ResponseMetadata: { ResponseCode: 'HS000000', ResponseDescriptionText: 'Success' } }
+```
+
+The **Verify SSA Composite Service**:
+
+```javascript
 fdsh.VerifySSACompositeService.verifySsa(connectivityArgs, methodArgs)
   .then(onThen)
   .catch(onCatch)
 ```
 
-Output:
+…outputs:
+
 ```javascript
-{ ResponseMetadata: { ResponseCode: 'HS000000', ResponseDescriptionText: 'Success' } }
 
 { SSACompositeIndividualResponse:
   { ResponseMetadata: { ResponseCode: 'HS000000', ResponseDescriptionText: 'Success' },
@@ -85,6 +103,8 @@ You must speak with CMS.
 
 ## TODO
 * tests
+* include more services
+* better error handling (more informative error messages, perhaps a unified error messaging scheme, etc.)
 
 ## Public domain
 
